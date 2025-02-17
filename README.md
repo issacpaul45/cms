@@ -52,6 +52,7 @@ The College Management System is a web-based application developed using the Pyt
 - **Frontend**: [![My Skills](https://skillicons.dev/icons?i=html,css,js,bootstrap)](https://skillicons.dev)
 - **Backend**: [![My Skills](https://skillicons.dev/icons?i=python,django)](https://skillicons.dev)
 - **Database**: [![My Skills](https://skillicons.dev/icons?i=sqlite)](https://skillicons.dev)
+  
 - **Payment Gateway Integration**: Third-party APIs for online fee payments
 
 ## Conclusion
