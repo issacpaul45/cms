@@ -1,0 +1,61 @@
+{% extends 'student/shared/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg p-4 rounded">
+        <h2 class="text-center text-primary mb-4">
+            <i class="fas fa-file-invoice-dollar"></i> Fee Status for {{ student.student_id.first_name }} {{ student.student_id.last_name }}
+        </h2>
+
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered text-center">
+                <thead class="table-dark text-white">
+                    <tr>
+                        <th>Amount</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for fee in fees %}
+                    <tr>
+                        <td class="align-middle fw-bold text-primary">₹{{ fee.amount }}</td>
+                        <td class="align-middle">{{ fee.due_date }}</td>
+                        <td class="align-middle">
+                            {% if fee.status == 'Pending' %}
+                                <span class="badge bg-danger">Pending</span>
+                            {% else %}
+                                <span class="badge bg-success">Paid</span>
+                            {% endif %}
+                        </td>
+                        <td class="align-middle">
+                            {% if fee.status == 'Pending' %}
+                            <a href="{% url 'make_payment' fee.id %}" class="btn btn-outline-success btn-sm">
+                                <i class="fas fa-credit-card"></i> Pay Now
+                            </a>
+                            {% else %}
+                            <span class="text-success fw-bold"><i class="fas fa-check-circle"></i> Paid</span>
+                            <a href="{% url 'generate_receipt' fee.id %}" class="btn btn-outline-info btn-sm">
+                                <i class="fas fa-file-download"></i> Download Receipt
+                            </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center text-danger fw-bold">No fees found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-center mt-3">
+            <a href="{% url 'studenthome' %}" class="btn btn-outline-primary">
+                <i class="fas fa-home"></i> Back to Home
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

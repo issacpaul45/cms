@@ -1,0 +1,46 @@
+{% extends "teacher/shared/base.html" %}
+
+{% block content %}
+    <h2>Students for Your Assigned Subjects</h2>
+    
+    {% if students %}
+        <form method="POST">
+            {% csrf_token %}
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Department</th>
+                        <th>Semester</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Attendance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                        <tr>
+                            <td>{{ student.student_id.first_name }} {{ student.student_id.last_name }}</td>
+                            <td>{{ student.department_id.dept_name }}</td>
+                            <td>{{ student.semester }}</td>
+                            <td>{{ student.student_id.email }}</td>
+                            <td>{{ student.phone_number }}</td>
+                            <td>
+                                <label>
+                                    <input type="radio" name="attendance_{{ student.id }}" value="present" {% if attendance_status == 'present' %}checked{% endif %}> Present
+                                </label>
+                                <label>
+                                    <input type="radio" name="attendance_{{ student.id }}" value="absent" {% if attendance_status == 'absent' %}checked{% endif %}> Absent
+                                </label>
+                                <input type="hidden" name="subject_{{ student.id }}" value="{{ subjects.0.id }}">
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button type="submit" class="btn btn-primary">Submit Attendance</button>
+        </form>
+    {% else %}
+        <p>No students found for your assigned subjects.</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "teacher/shared/base.html" %}
+
+{% block content %}
+    <h2>Students for Your Assigned Subjects</h2>
+
+    {% if students_data %}
+        <form method="POST">
+            {% csrf_token %}
+            {% for data in students_data %}
+                <h3>{{ data.subject.name }}</h3>  <!-- Display subject name -->
+                <input type="date" name="attendance_date" value="{{ today }}" class="form-control">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Attendance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in data.students %}
+                            <tr>
+                                <td>{{ student.student_id.first_name }} {{ student.student_id.last_name }}</td>
+                                <td>
+                                    <label>
+                                        <input type="radio" name="attendance_{{ student.id }}_{{ data.subject.id }}" value="present" required> Present
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="attendance_{{ student.id }}_{{ data.subject.id }}" value="absent" required> Absent
+                                    </label>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Submit Attendance</button>
+        </form>
+    {% else %}
+        <p>No subjects assigned for this teacher yet.</p>
+    {% endif %}
+{% endblock %}

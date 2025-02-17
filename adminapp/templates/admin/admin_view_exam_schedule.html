@@ -1,0 +1,73 @@
+{% extends 'admin/shared/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+
+
+<div class="card">
+
+    <div class="card-header">
+      <h3 class="text-primary">VIEW EXAM SCHEDULE</h3>
+    </div>
+
+                <div class="card-body">
+                    {% if not data %}
+                    <p class="text-center"> <b>No Items List</b>  </p>
+                    {% else %}
+
+                <table class="table table-bordered">
+
+
+                
+                    <thead>
+                        <tr>
+                            <th>Course Stream</th>
+                            <th>Department</th>
+                            <th>Course Name</th>
+                            <th>Course Start Date</th>
+                            <th>Course End Date</th>
+                            <th>Subject Name</th>
+                            <th>Exam Date</th>
+                            <th>From Time</th>
+                            <th>To Time</th>
+                            
+                          
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for i in data %}
+
+                        <tr>
+                            <td>{{ i.course_id.stream }} </td>
+                            <td>{{ i.department_id.dept_name }} </td>
+                            <td>{{ i.course_id.course_name }} </td>
+                            <td>{{ i.course_id.batch_startdate }} </td>
+                            <td>{{ i.course_id.batch_enddate }} </td>
+                            <td>{{ i.subject_id.subject }} </td>
+                            <td>{{ i.exam_date }} </td>
+                            <td>{{ i.starttime }} </td>
+                            <td>{{ i.endtime}} </td>
+
+
+                          
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+              
+                {% endif %}
+            </div>
+
+        </div>
+        <!-- /row -->
+    </section>
+    <!-- /wrapper -->
+</section>
+
+{% endblock content %}

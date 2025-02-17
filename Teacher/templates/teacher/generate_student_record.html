@@ -1,0 +1,77 @@
+{% extends 'teacher/shared/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">Generate Student Record</h2>
+
+    <div class="card shadow-lg p-4">
+        <form method="POST" class="needs-validation" novalidate>
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="semester" class="form-label">Select Semester:</label>
+                <select name="semester" id="semester" class="form-select" required>
+                    <option value="">--Select Semester--</option>
+                    {% for semester in semesters %}
+                        <option value="{{ semester }}" {% if semester == selected_semester %}selected{% endif %}>
+                            {{ semester }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <div class="invalid-feedback">
+                    Please select a semester.
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Generate Record</button>
+        </form>
+    </div>
+
+    {% if student_marks %}
+        <div class="mt-5">
+            <h3 class="text-center mb-3">Student Marks Record</h3>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped text-center">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Name</th>
+                            <th>Exam</th>
+                            <th>Marks Obtained</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in student_marks %}
+                            <tr>
+                                <td>{{ record.student.student_id.first_name }} {{ record.student.student_id.last_name }}</td>
+                                <td>
+                                    {% for mark in record.marks %}
+                                        {{ mark.assessment_type }}<br>
+                                    {% endfor %}
+                                </td>
+                                <td>{{ record.total_marks_obtained }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Bootstrap Form Validation -->
+<script>
+    (function () {
+        'use strict';
+        var forms = document.querySelectorAll('.needs-validation');
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+</script>
+
+{% endblock %}

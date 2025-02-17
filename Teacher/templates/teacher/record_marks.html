@@ -1,0 +1,71 @@
+{% extends 'teacher/shared/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">Record Student Marks</h2>
+
+    <div class="card shadow-lg p-4">
+        <form method="GET">
+            <div class="mb-3">
+                <label for="semester" class="form-label">Select Semester:</label>
+                <select name="semester" id="semester" class="form-select" required onchange="this.form.submit()">
+                    <option value="">--Select Semester--</option>
+                    {% for semester in semesters %}
+                        <option value="{{ semester }}" {% if semester == selected_semester %}selected{% endif %}>
+                            {{ semester }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </form>
+
+        {% if selected_semester %}
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="student" class="form-label">Student:</label>
+                <select name="student" id="student" class="form-select" required>
+                    <option value="">Select Student</option>
+                    {% for student in students %}
+                        <option value="{{ student.id }}">{{ student.student_id.first_name }} {{ student.student_id.last_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="subject" class="form-label">Subject:</label>
+                <select name="subject" id="subject" class="form-select" required>
+                    <option value="">Select Subject</option>
+                    {% for subject in subjects %}
+                        <option value="{{ subject.id }}">{{ subject.subject }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="assessment_type" class="form-label">Assessment Type:</label>
+                <select name="assessment_type" id="assessment_type" class="form-select" required>
+                    <option value="">Select Assessment Type</option>
+                    {% for key, value in assessment_choices %}
+                        <option value="{{ key }}">{{ value }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="marks_obtained" class="form-label">Marks Obtained:</label>
+                <input type="number" name="marks_obtained" id="marks_obtained" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="max_marks" class="form-label">Max Marks:</label>
+                <input type="number" name="max_marks" id="max_marks" class="form-control" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Record Marks</button>
+        </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

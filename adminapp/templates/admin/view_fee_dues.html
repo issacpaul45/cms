@@ -1,0 +1,36 @@
+{% extends 'admin/shared/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center text-danger mb-4">Fee Dues</h2>
+
+    <table class="table text-center">
+        <thead>
+            <tr>
+                <th>Student</th>
+                <th>Amount (₹)</th>
+                <th>Due Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fee in fees %}
+            <tr>
+                <td>{{ fee.student.student_id }}</td>
+                <td>₹{{ fee.amount }}</td>
+                <td>{{ fee.due_date }}</td>
+                <td>{{ fee.status }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="text-muted">No fee dues found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="text-center mt-3">
+        <a href="{% url 'adminhome' %}" class="btn btn-outline-primary">Back to Home</a>
+    </div>
+</div>
+{% endblock %}

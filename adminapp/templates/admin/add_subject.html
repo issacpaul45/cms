@@ -1,0 +1,133 @@
+{% extends 'admin/shared/base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+
+
+<section id="contact" class="contact ">
+    <div class="container col-lg-6">
+
+
+        <div class="card ">
+
+            <div class="card-header ">
+                <h3 class="text-primary">ADD SUBJECT</h3>
+            </div>
+
+            <div class="card-body">
+                <div class="form">
+                    <form action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div>
+
+
+                            <div>
+
+
+
+
+
+                                
+
+
+
+                                    <div class="form-floating mb-3">
+
+
+                                        <select class="form-control" name="dept_id" id="firstDropdown"
+                                            onchange="handleFirstDropdownChange(this)">
+                                            <option value="Select">Select Department</option>
+
+
+                                            {% for i in dept %}
+
+                                            <option value="{{i.id }}">{{ i.dept_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <label for="floatingInput">Select Department Name</label>
+                                    </div>
+
+                                    <div class="form-floating mb-3">
+                                        <select class="form-control" name="sem" id="secondDropdown">
+
+                                        <option value="Select">Select Semester</option>
+                                        <option value="Semester 1">Semester 1</option>
+                                        <option value="Semester 2">Semester 2</option>
+                                        <option value="Semester 3">Semester 3</option>
+                                        
+                                        </select>
+                                        <label for="floatingInput">Select Semester</label>
+                                    </div>
+
+
+
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" autocomplete="off" required
+                                            name="subname" id="floatingInput" placeholder="name@example.com">
+                                        <label for="floatingInput">Subject Name</label>
+                                    </div>
+
+
+
+
+
+                                
+
+
+                                    <button type="submit" class="btn btn-primary py-3 w-100 mb-4">SUBMIT</button>
+
+
+
+
+
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+<script>
+    function handleFirstDropdownChange(selectObject) {
+        var selectedValue = selectObject.value;
+
+        // Make an AJAX request to the server
+        // Pass the selected value of the first dropdown as a parameter
+
+        // Example using jQuery AJAX
+        $.ajax({
+            url: '/adminapp/get_second_dropdown_data/',  // URL to your Django view
+            data: { firstDropdownValue: selectedValue },
+            dataType: 'json',
+            success: function (response) {
+                // Update the options in the second dropdown based on the server response
+                var secondDropdown = document.getElementById('secondDropdown');
+                secondDropdown.innerHTML = '';  // Clear existing options
+
+                // Loop through the response and create new options
+                for (var i = 0; i < response.length; i++) {
+                    var option = document.createElement('option');
+                    option.value = response[i].id;
+                    option.text = response[i].course_name;
+                    secondDropdown.appendChild(option);
+                }
+            }
+        });
+    }
+</script>
+
+
+<!-- Sign In End -->
+{% endblock content %}

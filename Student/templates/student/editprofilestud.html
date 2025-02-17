@@ -1,0 +1,118 @@
+{% extends 'student/shared/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+ <form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="col-12">
+        <div class="bg-light rounded p-4 p-sm-5 my-4 mx-3">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h3>EDIT STUDENT DETAILS</h3>
+            </div>
+
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-floating mb-3">
+                        <select class="form-control" name="dept_id" id="firstDropdown"  onchange="handleFirstDropdownChange(this)">
+                            <option value="Select" disabled>Select Department</option>
+                            {% for i in dept %}
+                                <option value="{{i.id}}" {% if i.id == student.department_id.id %}selected readonly{% endif %} disabled>{{ i.dept_name }} </option>
+                            {% endfor %}
+                        </select>
+                        <label for="floatingInput">Select Department Name</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" name="first_name" id="floatingInput" required value="{{ user.first_name }}">
+                        <label for="floatingInput">First Name</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" name="last_name" id="floatingInput" required value="{{ user.last_name }}">
+                        <label for="floatingInput">Last Name</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <textarea name="address" style=" height: 275px;" class="form-control" id="floatingInput" cols="30" rows="10">{{ student.address }}</textarea>
+                        <label for="floatingInput">Address</label>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control" name="email" id="floatingInput" required value="{{ user.email }}">
+                        <label for="floatingInput">Email</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="number" class="form-control" name="phone" id="floatingInput" required value="{{ student.phone_number }}">
+                        <label for="floatingInput">Phone Number</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" name="father_name" id="floatingInput" required value="{{ student.father_name }}">
+                        <label for="floatingInput">Father's Name</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" name="mother_name" id="floatingInput" required value="{{ student.mother_name }}">
+                        <label for="floatingInput">Mother's Name</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="date" class="form-control" name="DOB" id="floatingInput" required value="{{ student.DOB }}">
+                        <label for="floatingInput">DOB</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" name="username" id="floatingInput" required value="{{ user.username }}">
+                        <label for="floatingInput">Username</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" name="password" id="floatingInput" placeholder="Leave blank to keep unchanged">
+                        <label for="floatingInput">Password</label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary py-3 w-100 mb-4">SUBMIT</button>
+        </div>
+    </div>
+</form>
+
+
+
+<script>
+    function handleFirstDropdownChange(selectObject) {
+        var selectedValue = selectObject.value;
+
+        // Make an AJAX request to the server
+        // Pass the selected value of the first dropdown as a parameter
+
+        // Example using jQuery AJAX
+        $.ajax({
+            url: '/adminapp/get_second_dropdown_data/',  // URL to your Django view
+            data: { firstDropdownValue: selectedValue },
+            dataType: 'json',
+            success: function (response) {
+                // Update the options in the second dropdown based on the server response
+                var secondDropdown = document.getElementById('secondDropdown');
+                secondDropdown.innerHTML = '';  // Clear existing options
+
+                // Loop through the response and create new options
+                for (var i = 0; i < response.length; i++) {
+                    var option = document.createElement('option');
+                    option.value = response[i].id;
+                    option.text = response[i].course_name;
+                    secondDropdown.appendChild(option);
+                }
+            }
+        });
+    }
+</script>
+
+
+{% endblock content %}

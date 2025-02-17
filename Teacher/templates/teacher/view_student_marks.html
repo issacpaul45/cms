@@ -1,0 +1,51 @@
+{% extends 'teacher/shared/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg p-4 rounded">
+        <h2 class="text-center text-primary mb-4">Student Marks</h2>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="table-dark text-white text-center">
+                    <tr>
+                        <th>Student</th>
+                        <th>Subject</th>
+                        <th>Assessment Type</th>
+                        <th>Marks Obtained</th>
+                        <th>Max Marks</th>
+                        <th>Total Marks Obtained</th>
+                        <th>Total Max Marks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student, data in student_marks.items %}
+                    {% for mark in data.marks %}
+                    <tr>
+                        <td class="align-middle">{{ student.student_id.first_name }} {{ student.student_id.last_name }}</td>
+                        <td class="align-middle">{{ mark.subject.subject }}</td>
+                        <td class="align-middle">{{ mark.assessment_type }}</td>
+                        <td class="align-middle text-success fw-bold">{{ mark.marks_obtained }}</td>
+                        <td class="align-middle text-danger fw-bold">{{ mark.max_marks }}</td>
+                        {% if forloop.first %}
+                        <td class="align-middle text-white bg-success fw-bold" rowspan="{{ data.marks|length }}">
+                            {{ data.total_marks_obtained }}
+                        </td>
+                        <td class="align-middle text-white bg-primary fw-bold" rowspan="{{ data.marks|length }}">
+                            {{ data.total_max_marks }}
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center text-danger fw-bold">No records found</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

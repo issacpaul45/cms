@@ -1,0 +1,37 @@
+{% extends 'teacher/shared/base.html' %}
+
+{% block content %}
+<div class="container my-4">
+    <h2 class="mb-4 text-primary">Submissions for Assignment: {{ assignment.description }}</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Student</th>
+                    <th>Submission Date</th>
+                    <th>File</th>
+                    <th>Feedback</th>
+                    <th>Marks</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for submission in submissions %}
+                <tr>
+                    <td>{{ submission.student.student_id.first_name }} {{ submission.student.student_id.last_name }}</td>
+                    <td>{{ submission.submitted_at }}</td>
+                    <td>
+                        <a href="{{ submission.file.url }}" class="btn btn-sm btn-info" download>Download</a>
+                    </td>
+                    <td>{{ submission.feedback|default:"-" }}</td>
+                    <td>{{ submission.marks|default:"-" }}</td>
+                    <td>
+                        <a href="{% url 'review_submission' submission.id %}" class="btn btn-sm btn-warning">Review</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

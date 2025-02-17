@@ -1,0 +1,41 @@
+{% extends 'admin/shared/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="text-primary">Assign Teacher to {{ subject.subject }} ({{ subject.semester }})</h3>
+    </div>
+    <div class="card-body">
+        <h5>Department: {{ subject.department_id.dept_name }}</h5>
+
+        {% if assigned_teacher %}
+            <div class="alert alert-info">
+                <strong>Assigned Teacher:</strong> {{ assigned_teacher.teacher_id.first_name }} {{ assigned_teacher.teacher_id.last_name }}
+            </div>
+        {% endif %}
+
+        {% if not assigned_teacher %}
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="teacher">Select Teacher:</label>
+                    <select name="teacher_id" class="form-control" required>
+                        <option value="">Choose a teacher</option>
+                        {% for teacher in teachers %}
+                            <option value="{{ teacher.id }}">{{ teacher.teacher_id.first_name }} {{ teacher.teacher_id.last_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-success mt-3">Assign Teacher</button>
+            </form>
+        {% else %}
+            <div class="alert alert-warning mt-3">
+                <strong>Note:</strong> A teacher has already been assigned to this subject. You cannot assign another teacher.
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock content %}
+

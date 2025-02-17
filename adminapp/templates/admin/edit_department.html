@@ -1,0 +1,42 @@
+{% extends 'admin/shared/base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+<section id="contact" class="contact ">
+    <div class="container col-lg-6">
+
+
+        <div class="card ">
+
+            <div class="card-header">
+                <h3 class="text-primary"> EDIT DEPARTMENT</h3>
+            </div>
+
+            <div class="card-body">
+                <div class="form">
+        <form action="/adminapp/department_update/{{dept.id}}" enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            <div >
+                <div >
+                
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" value="{{ dept.dept_name }}" required
+                            name="dept_name" id="floatingInput" placeholder="name@example.com">
+                        <label for="floatingInput">Department Name</label>
+                    </div>
+
+                    
+
+
+                    <button type="submit" class="btn btn-primary py-3 w-100 mb-4">SUBMIT</button>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Sign In End -->
+{% endblock content %}

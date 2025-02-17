@@ -1,0 +1,26 @@
+{% extends 'teacher/shared/base.html' %}
+
+{% block content %}
+<div class="container my-4">
+    <h2 class="mb-4 text-primary">Review Submission for {{ submission.student.student_id.first_name }} {{ submission.student.student_id.last_name }}</h2>
+    
+    <p><strong>Assignment:</strong> {{ submission.assignment.description }}</p>
+    <p><strong>Submission Date:</strong> {{ submission.submitted_at }}</p>
+    <p><strong>File:</strong> <a href="{{ submission.file.url }}" class="btn btn-info btn-sm" download>Download</a></p>
+
+    <form method="post" class="mt-4" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="feedback" class="form-label">Feedback:</label>
+            <textarea id="feedback" name="feedback" class="form-control" rows="5">{{ submission.feedback }}</textarea>
+        </div>
+        
+        <div class="form-group mt-3">
+            <label for="marks" class="form-label">Marks:</label>
+            <input type="number" id="marks" name="marks" class="form-control" value="{{ submission.marks }}" step="0.1" min="0">
+        </div>
+        
+        <button type="submit" class="btn btn-primary mt-4">Save</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,189 @@
+{% extends 'Home/shared/base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+
+<section id="contact" class="contact ">
+    <div class="container col-lg-6">
+
+
+        <div class="card ">
+
+            <div class="card-header ">
+                <h3 class="text-primary">SignUp as Student </h3>
+            </div>
+
+            <div class="card-body">
+                <div class="form">
+                    <form action="" method="post" enctype="multipart/form-data"
+                        onsubmit="var textBoxValue = document.getElementById('numberInput').value; var regex = /^\d{10}$/; if (!regex.test(textBoxValue)) { alert('Please enter exactly 10 digits.'); return false; } return true;">
+                        {% csrf_token %}
+                        <div class="col-12">
+
+
+                            <div>
+
+
+
+
+
+                                <div class="row">
+                                    <div class="col-6">
+
+
+
+                                        <div class="form-floating mb-3">
+
+
+                                            <select class="form-control" name="dept_id" id="firstDropdown"
+                                                onchange="handleFirstDropdownChange(this)">
+                                                <option value="Select">Select Department</option>
+
+
+                                                {% for i in dept %}
+
+                                                <option value="{{i.id }}">{{ i.dept_name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <label for="floatingInput">Department</label>
+                                        </div>
+
+                                        <div class="form-floating mb-3">
+                                            <select class="form-control" name="sem">
+                                                <option value="Select">Select Semester</option>
+                                                <option value="Semester 1">Semester 1</option>
+                                                <option value="Semester 2">Semester 2</option>
+                                                <option value="Semester 3">Semester 3</option>
+                                            </select>
+                                            <label for="floatingInput">Semester</label>
+                                        </div>
+
+
+
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" autocomplete="off" required
+                                                name="first_name" id="floatingInput" placeholder="name@example.com">
+                                            <label for="floatingInput">First Name</label>
+                                        </div>
+
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" autocomplete="off" required
+                                                name="last_name" id="floatingInput" placeholder="name@example.com">
+                                            <label for="floatingInput">Last Name</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="email" class="form-control" autocomplete="off" required
+                                                name="email" id="floatingInput" placeholder="name@example.com">
+                                            <label for="floatingInput">Email</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control" autocomplete="off" required
+                                                name="phone" id="numberInput" placeholder="name@example.com">
+                                            <label for="floatingInput">Phone Number</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+
+
+                                            <textarea placeholder="name@example.com" name="address"
+                                                class="form-control " style=" height: 132px;" id="floatingInput"
+                                                cols="30" rows="10"></textarea>
+                                            <label for="floatingInput">Address</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+
+
+
+
+
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" autocomplete="off" required
+                                                name="father_name" id="floatingInput" placeholder="name@example.com">
+                                            <label for="floatingInput">Father Name</label>
+                                        </div>
+
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" autocomplete="off" required
+                                                name="mother_name" id="floatingInput" placeholder="name@example.com">
+                                            <label for="floatingInput">Mother Name</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control" autocomplete="off" required
+                                                name="sscl" id="floatingInput" placeholder="name@example.com">
+                                            <label for="floatingInput">10th Score</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control" autocomplete="off" required
+                                                name="plus_two" id="floatingInput" placeholder="name@example.com">
+                                            <label for="floatingInput">12th Score</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="date" class="form-control" autocomplete="off" required
+                                                name="DOB" id="floatingInput" placeholder="name@example.com">
+                                            <label for="floatingInput">DOB</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="file" class="form-control" autocomplete="off" required
+                                                name="photo" id="floatingInput" placeholder="name@example.com">
+                                            <label for="floatingInput">Photo</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" autocomplete="off" required
+                                                name="username" id="floatingInput" placeholder="name@example.com">
+                                            <label for="floatingInput">Username</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="password" class="form-control" autocomplete="off" required
+                                                name="password" id="floatingInput" placeholder="name@example.com">
+                                            <label for="floatingInput">Password</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary py-3 w-100 mb-4">SUBMIT</button>
+
+                            </div>
+                        </div>
+
+                </div>
+
+
+            </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function handleFirstDropdownChange(selectObject) {
+            var selectedValue = selectObject.value;
+
+            // Make an AJAX request to the server
+            // Pass the selected value of the first dropdown as a parameter
+
+            // Example using jQuery AJAX
+            $.ajax({
+                url: '/adminapp/get_second_dropdown_data/',  // URL to your Django view
+                data: { firstDropdownValue: selectedValue },
+                dataType: 'json',
+                success: function (response) {
+                    // Update the options in the second dropdown based on the server response
+                    var secondDropdown = document.getElementById('secondDropdown');
+                    secondDropdown.innerHTML = '';  // Clear existing options
+
+                    // Loop through the response and create new options
+                    for (var i = 0; i < response.length; i++) {
+                        var option = document.createElement('option');
+                        option.value = response[i].id;
+                        option.text = response[i].course_name;
+                        secondDropdown.appendChild(option);
+                    }
+                }
+            });
+        }
+    </script>
+
+
+    <!-- Sign In End -->
+    {% endblock content %}

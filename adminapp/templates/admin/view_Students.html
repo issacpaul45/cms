@@ -1,0 +1,74 @@
+{% extends 'admin/shared/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+
+
+<div class="card">
+
+    <div class="card-header">
+      <h3 class="text-primary">VIEW STUDENTS  </h3>
+    </div>
+
+                <div class="card-body">
+                    {% if not data %}
+                    <p class="text-center"> <b>No Items List</b>  </p>
+                    {% else %}
+
+                <table class="table table-bordered">
+
+                    
+                    <thead>
+                        <tr>
+                           
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone Number</th>
+                            <th>Father Name</th>
+                            <th>Mother Name</th>
+                            <th>DOB</th>
+                            <th>Department</th>
+                            <th>Semester</th>
+                            <th>10th Score</th>
+                            <th>12th Score</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for i in data %}
+
+                        <tr>
+
+                            <td>{{ i.student_id.first_name }}    {{ i.student_id.last_name  }} </td>
+                            <td>{{ i.student_id.email }} </td>
+                            <td>{{ i.phone_number }} </td>
+                            <td>{{ i.father_name }} </td>
+                            <td>{{ i.mother_name }} </td>
+                            <td>{{ i.DOB }} </td>
+                            <td>{{ i.department_id.dept_name }} </td>
+                            <td>{{ i.semester }} </td>
+                            <td>{{ i.sslc }} </td>
+                            <td>{{ i.plus_two }} </td>
+
+
+                           
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+                {% endif %}
+            </div>
+
+        </div>
+        <!-- /row -->
+    </section>
+    <!-- /wrapper -->
+</section>
+
+{% endblock content %}

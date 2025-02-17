@@ -1,0 +1,40 @@
+{% extends 'admin/shared/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="text-primary">ASSIGN TEACHERS</h3>
+    </div>
+    <div class="card-body">
+        {% if not subjects %}
+            <p class="text-center"><b>No Subjects Available</b></p>
+        {% else %}
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Department</th>
+                        <th>Semester</th>
+                        <th>Subject Name</th>
+                        <th>Assign Teacher</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for subject in subjects %}
+                        <tr>
+                            <td>{{ subject.department_id.dept_name }}</td>
+                            <td>{{ subject.semester }}</td>
+                            <td>{{ subject.subject }}</td>
+                            <td><a href="{% url 'admin_assign_teachers' subject.id %}" class="btn btn-primary">ASSIGN TEACHER</a></td>                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}
+
+
+

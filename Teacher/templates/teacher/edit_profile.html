@@ -1,0 +1,145 @@
+{% extends 'teacher/shared/base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+
+
+<div class="container-fluid">
+    <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="col-12">
+
+
+                <div class="bg-light rounded p-4 p-sm-5 my-4 mx-3">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+
+                        <h3>EDIT TEACHER DETAILS</h3>
+                    </div>
+
+
+
+
+                    <div class="row">
+                        <div class="col-6">
+
+
+
+                            <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" value="{{ dept.dept_name }}" readonly>
+                                    <label for="floatingInput">Department</label>
+                                </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" autocomplete="off" name="first_name" required value="{{ user.first_name }}" id="floatingInput"
+                                    placeholder="name@example.com">
+                                <label for="floatingInput">First Name</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" autocomplete="off" name="last_name" required value="{{ user.last_name }}" id="floatingInput"
+                                    placeholder="name@example.com">
+                                <label for="floatingInput">Last Name</label>
+                            </div>
+                            
+                            <div class="form-floating mb-3">
+                      {% comment %}  {% endcomment %}
+
+                                    <textarea placeholder="name@example.com" style=" height: 132px;" name="address" class="form-control "  id="floatingInput" cols="30" rows="10">{{ teacher.address }}</textarea>
+                                <label for="floatingInput">Address</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+
+<div class="form-floating mb-3">
+                                <input type="email" class="form-control" autocomplete="off" name="email" required value="{{ user.email }}" id="floatingInput"
+                                    placeholder="name@example.com">
+                                <label for="floatingInput">Email</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="number" class="form-control" autocomplete="off" name="phone_number" required value="{{ teacher.phone_number }}" id="floatingInput"
+                                    placeholder="name@example.com">
+                                <label for="floatingInput">Phone Number</label>
+                            </div>
+
+                           
+
+                            <div class="form-floating mb-3">
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="number" class="form-control" autocomplete="off" name="experience" required value="{{ teacher.experience }}" id="floatingInput"
+                                    placeholder="name@example.com">
+                                <label for="floatingInput">Experience</label>
+                            </div>
+                        
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" autocomplete="off" name="username" required value="{{ user.username }}" id="floatingInput"
+                                    placeholder="name@example.com">
+                                <label for="floatingInput">Username</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="password" class="form-control" autocomplete="off" required name="password" id="floatingInput"
+                                    placeholder="name@example.com">
+                                <label for="floatingInput">Password</label>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+                    <button type="submit" class="btn btn-primary py-3 w-100 mb-4">SUBMIT</button>
+
+                </div>
+            </div>
+
+    </div>
+
+
+</div>
+</form>
+</div>
+</div>
+
+<script>
+    function handleFirstDropdownChange(selectObject) {
+        var selectedValue = selectObject.value;
+
+        // Make an AJAX request to the server
+        // Pass the selected value of the first dropdown as a parameter
+
+        // Example using jQuery AJAX
+        $.ajax({
+            url: '/adminapp/get_second_dropdown_data/',  // URL to your Django view
+            data: { firstDropdownValue: selectedValue },
+            dataType: 'json',
+            success: function (response) {
+                // Update the options in the second dropdown based on the server response
+                var secondDropdown = document.getElementById('secondDropdown');
+                secondDropdown.innerHTML = '';  // Clear existing options
+
+                // Loop through the response and create new options
+                for (var i = 0; i < response.length; i++) {
+                    var option = document.createElement('option');
+                    option.value = response[i].id;
+                    option.text = response[i].course_name;
+                    secondDropdown.appendChild(option);
+                }
+            }
+        });
+    }
+</script>
+
+
+<!-- Sign In End -->
+{% endblock content %}

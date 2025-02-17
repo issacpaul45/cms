@@ -1,0 +1,34 @@
+{% extends "student/shared/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg p-4 rounded">
+        <h2 class="text-center mb-4 text-success">My Internal Assessment Marks</h2>
+        
+        {% if marks %}
+        <table class="table table-bordered table-striped">
+            <thead class="table-primary">
+                <tr>
+                    <th>Subject</th>
+                    <th>Assessment Type</th>
+                    <th>Marks Obtained</th>
+                    <th>Maximum Marks</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for mark in marks %}
+                <tr>
+                    <td>{{ mark.subject.subject }}</td>
+                    <td>{{ mark.assessment_type }}</td>
+                    <td>{{ mark.marks_obtained }}</td>
+                    <td>{{ mark.max_marks }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="text-center text-danger">No assessment marks recorded yet.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends 'student/shared/base.html' %}
+{% load custom_filters %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg p-4 rounded">
+        <h2 class="text-center text-primary mb-4">
+            <i class="fas fa-credit-card"></i> Secure Payment
+        </h2>
+
+        <div class="text-center">
+            <p class="fs-4 fw-bold text-dark">Amount Due: 
+                <span class="badge bg-success fs-5">₹{{ fee.amount }}</span>
+            </p>
+        </div>
+
+        <div class="text-center mt-4">
+            {% if fee.status == "Paid" %}
+                <div class="alert alert-success">
+                    <h4><i class="fas fa-check-circle text-success"></i> Payment Completed!</h4>
+                </div>
+            {% else %}
+                <!-- Razorpay Payment Button -->
+                <button id="pay-button" class="btn btn-lg btn-primary">
+                    <i class="fas fa-wallet"></i> Pay Now
+                </button>
+            {% endif %}
+        </div>
+
+        <!-- Message container for payment status -->
+        <div id="payment-status" class="alert mt-4 text-center d-none"></div>
+
+        <div class="text-center mt-3">
+            <a href="{% url 'view_fee_status' %}" class="btn btn-outline-primary">
+                <i class="fas fa-times-circle"></i> Back To Fee
+            </a>
+        </div>
+    </div>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    document.getElementById("pay-button")?.addEventListener("click", function(e) {
+        e.preventDefault();
+
+        var options = {
+            "key": "{{ RAZORPAY_KEY_ID }}",  // Razorpay Key
+            "amount": "{{ fee.amount|multiply:100|floatformat:0 }}", // Convert to paise
+            "currency": "INR",
+            "name": "CMS",
+            "description": "Fee Payment",
+            "image": "https://your-logo-url.com/logo.png",
+            "order_id": "{{ order_id }}",  // Ensure this is generated and passed from Django
+            "handler": function (response) {
+                console.log("Payment Response:", response);
+
+                // Send payment details to the server for verification
+                fetch("{% url 'payment_callback' %}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": "{{ csrf_token }}"
+                    },
+                    body: JSON.stringify({
+                        razorpay_order_id: response.razorpay_order_id,
+                        razorpay_payment_id: response.razorpay_payment_id,
+                        razorpay_signature: response.razorpay_signature,
+                        fee_id: "{{ fee.id }}"
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    let statusDiv = document.getElementById("payment-status");
+                    console.log("data====" + data);
+                    if (data.success) {
+                        statusDiv.innerHTML = `
+                            <h4><i class="fas fa-check-circle text-success"></i> Payment Successful!</h4>
+                        `;
+                        statusDiv.classList.remove("d-none", "alert-danger");
+                        statusDiv.classList.add("alert-success");
+                        setTimeout(() => location.reload(), 3000);
+                    } else {
+                        statusDiv.innerHTML = `
+                            <h4><i class="fas fa-times-circle text-danger"></i> Payment Failed!</h4>
+                            <p>${data.error}</p>
+                        `;
+                        statusDiv.classList.remove("d-none", "alert-success");
+                        statusDiv.classList.add("alert-danger");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    let statusDiv = document.getElementById("payment-status");
+                    statusDiv.innerHTML = `
+                        <h4><i class="fas fa-times-circle text-danger"></i> Payment Failed!</h4>
+                        <p>There was an error processing your payment. Please try again.</p>
+                    `;
+                    statusDiv.classList.remove("d-none", "alert-success");
+                    statusDiv.classList.add("alert-danger");
+                });
+            },
+            "prefill": {
+                "name": "{{ fee.student.name }}",
+                "email": "{{ fee.student.email }}"
+            },
+            "theme": {
+                "color": "#007bff"
+            }
+        };
+
+        var rzp1 = new Razorpay(options);
+        rzp1.open();
+    });
+</script>
+</script>
+{% endblock %}

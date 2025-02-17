@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Students for {{ subject.subject }} - Semester {{ semester }}</h2>
+<table>
+    <tr>
+        <th>Student ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+    </tr>
+    {% for student in students %}
+    <tr>
+        <td>{{ student.student_id.id }}</td>
+        <td>{{ student.student_id.first_name }} {{ student.student_id.last_name }}</td>
+        <td>{{ student.student_id.email }}</td>
+        <td>{{ student.phone_number }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="4">No students found for this subject and semester.</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

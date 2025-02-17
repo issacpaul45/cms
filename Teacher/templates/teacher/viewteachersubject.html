@@ -1,0 +1,37 @@
+{% extends 'teacher/shared/base.html' %}
+
+
+{% load static %}
+
+
+{% block content %}
+
+<div class="container">
+    <h2>Assigned Subjects</h2>
+
+    {% if assigned_subjects %}
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Subject Name</th>
+                    <th>Department</th>
+                    <th>Semester</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in assigned_subjects %}
+                <tr>
+                    <td>{{ item.subject.subject }}</td>
+                    <td>{{ item.subject.department_id.dept_name }}</td>
+                    <td>{{ item.subject.semester }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No subjects assigned to you.</p>
+    {% endif %}
+</div>
+
+
+{% endblock content %}
