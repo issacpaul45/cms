@@ -49,9 +49,9 @@ The College Management System is a web-based application developed using the Pyt
 
 ## Technologies Used
 
-- **Frontend**: HTML, CSS, JavaScript, Bootstrap
-- **Backend**: Python with Django Framework
-- **Database**: SQLite
+- **Frontend**: [![My Skills](https://skillicons.dev/icons?i=html,css,js,bootstrap)](https://skillicons.dev)
+- **Backend**: [![My Skills](https://skillicons.dev/icons?i=python,django)](https://skillicons.dev)
+- **Database**: [![My Skills](https://skillicons.dev/icons?i=sqlite)](https://skillicons.dev)
 - **Payment Gateway Integration**: Third-party APIs for online fee payments
 
 ## Conclusion
@@ -66,7 +66,7 @@ The College Management System provides an efficient and user-friendly platform f
    ```
 2. Navigate to the project directory:
    ```sh
-   cd college-management-system
+   cd CMS
    ```
 3. Create a virtual environment and activate it:
    ```sh
