@@ -89,8 +89,3 @@ The College Management System provides an efficient and user-friendly platform f
    ```
    http://127.0.0.1:8000/
    ```
-
-## License
-
-This project is open-source and available for modification and distribution.
-
